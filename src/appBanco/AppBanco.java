@@ -107,7 +107,7 @@ public class AppBanco {
 			System.out.println("1. Depositar");
 			System.out.println("2. Retirar");
 			System.out.println("3. Transferir");
-			System.out.println("5. Volver al menú principal");
+			System.out.println("4. Volver al menú principal");
 			opcion = getOpcion(entrada);
 			switch (opcion) {
 				case 1:
@@ -130,7 +130,7 @@ public class AppBanco {
 			System.out.println("\n--- Historial de transacciones ---");
 			System.out.println("1. Ver transacciones de cliente");
 			System.out.println("2. Ver transacciones de cuenta");
-			System.out.println("5. Volver al menú principal");
+			System.out.println("3. Volver al menú principal");
 			opcion = getOpcion(entrada);
 			switch (opcion) {
 				case 1:
