@@ -1,22 +1,21 @@
 package servicios;
 
 
-import java.util.HashMap;
-import java.util.Map;
 import modelos.Cuenta;
 
-public class GestionCuenta {
-    private Map<Integer, Cuenta> Cuentas;
 
-    public GestionCuenta() {
-        Cuentas = new HashMap<>();
+public class GestionCuenta {
+    private BancoDB bancoDB;
+
+    public GestionCuenta(BancoDB bancoDB) {
+        this.bancoDB = bancoDB;
     }
 
     // Crear una nueva Cuenta
     public void crearCuenta(int numCuenta, String titular, double saldo, boolean activa) {
-        if (!Cuentas.containsKey(numCuenta)) {
+        if (!bancoDB.getCuentas().containsKey(numCuenta)) {
             Cuenta nuevaCuenta = new Cuenta(numCuenta, titular, saldo, activa);
-            Cuentas.put(numCuenta, nuevaCuenta);
+            bancoDB.getCuentas().put(numCuenta, nuevaCuenta);
         } else {
             System.out.println("El número de Cuenta ya existe.");
         }
@@ -24,12 +23,12 @@ public class GestionCuenta {
 
     // Buscar Cuenta por número de Cuenta
     public Cuenta buscarCuenta(int numCuenta) {
-        return Cuentas.get(numCuenta);
+        return bancoDB.getCuentas().get(numCuenta);
     }
 
     // Modificar una Cuenta existente
     public void modificarCuenta(int numCuenta, String nuevoTitular, double nuevoSaldo, boolean nuevaActiva) {
-        Cuenta Cuenta = Cuentas.get(numCuenta);
+        Cuenta Cuenta = bancoDB.getCuentas().get(numCuenta);
         if (Cuenta != null) {
             Cuenta.setTitular(nuevoTitular);
             Cuenta.setSaldo(nuevoSaldo);
@@ -41,8 +40,8 @@ public class GestionCuenta {
 
     // Borrar una Cuenta existente
     public void borrarCuenta(int numCuenta) {
-        if (Cuentas.containsKey(numCuenta)) {
-            Cuentas.remove(numCuenta);
+        if (bancoDB.getCuentas().containsKey(numCuenta)) {
+            bancoDB.getCuentas().remove(numCuenta);
         } else {
             System.out.println("La Cuenta no existe.");
         }
@@ -50,7 +49,7 @@ public class GestionCuenta {
 
     // Bloquear una Cuenta
     public void bloquearCuenta(int numCuenta) {
-        Cuenta Cuenta = Cuentas.get(numCuenta);
+        Cuenta Cuenta = bancoDB.getCuentas().get(numCuenta);
         if (Cuenta != null) {
             Cuenta.setActiva(false);
         } else {
