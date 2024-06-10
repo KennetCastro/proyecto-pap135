@@ -115,6 +115,7 @@ public class AppBanco {
 						System.out.println("\nNúmero de cuenta: " + cuenta.getNumCuenta());
 						System.out.println("Titular: " + cuenta.getTitular());
 						System.out.println("Saldo: $" + cuenta.getSaldo());
+						System.out.println("Estado: " + (cuenta.isActiva() ? "Activa":"Bloqueada"));
 					} else {
 						System.out.println("\nLa Cuenta no existe.");
 					}
@@ -127,7 +128,7 @@ public class AppBanco {
 					System.out.print("¿Desea bloquear la cuenta? (true/false): ");
 					Boolean bloquear = entrada.nextBoolean();
 					gestor = new GestionCuenta(bancoDB);
-					gestor.modificarCuenta(numCuenta, nombre, 0.0, !bloquear);
+					gestor.modificarCuenta(numCuenta, nombre, !bloquear);
 					break;
 				case 4:
 					System.out.print("Número de cuenta: ");

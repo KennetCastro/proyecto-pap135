@@ -27,11 +27,10 @@ public class GestionCuenta {
     }
 
     // Modificar una Cuenta existente
-    public void modificarCuenta(int numCuenta, String nuevoTitular, double nuevoSaldo, boolean nuevaActiva) {
+    public void modificarCuenta(int numCuenta, String nuevoTitular, boolean nuevaActiva) {
         Cuenta cuenta = bancoDB.getCuentas().get(numCuenta);
         if (cuenta != null) {
             cuenta.setTitular(nuevoTitular);
-            cuenta.setSaldo(nuevoSaldo);
             cuenta.setActiva(nuevaActiva);
         } else {
             System.out.println("La Cuenta no existe.");
