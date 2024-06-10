@@ -120,6 +120,14 @@ public class AppBanco {
 					}
 					break;
 				case 3:
+					System.out.print("Número de cuenta: ");
+					numCuenta = entrada.nextInt();
+					System.out.print("Nombre del titular: ");
+					nombre = entrada.next();
+					System.out.print("¿Desea bloquear la cuenta? (true/false): ");
+					Boolean bloquear = entrada.nextBoolean();
+					gestor = new GestionCuenta(bancoDB);
+					gestor.modificarCuenta(numCuenta, nombre, 0.0, !bloquear);
 					break;
 				case 4:
 					System.out.print("Número de cuenta: ");
