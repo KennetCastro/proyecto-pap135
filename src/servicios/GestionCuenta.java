@@ -28,11 +28,11 @@ public class GestionCuenta {
 
     // Modificar una Cuenta existente
     public void modificarCuenta(int numCuenta, String nuevoTitular, double nuevoSaldo, boolean nuevaActiva) {
-        Cuenta Cuenta = bancoDB.getCuentas().get(numCuenta);
-        if (Cuenta != null) {
-            Cuenta.setTitular(nuevoTitular);
-            Cuenta.setSaldo(nuevoSaldo);
-            Cuenta.setActiva(nuevaActiva);
+        Cuenta cuenta = bancoDB.getCuentas().get(numCuenta);
+        if (cuenta != null) {
+            cuenta.setTitular(nuevoTitular);
+            cuenta.setSaldo(nuevoSaldo);
+            cuenta.setActiva(nuevaActiva);
         } else {
             System.out.println("La Cuenta no existe.");
         }
@@ -49,9 +49,9 @@ public class GestionCuenta {
 
     // Bloquear una Cuenta
     public void bloquearCuenta(int numCuenta) {
-        Cuenta Cuenta = bancoDB.getCuentas().get(numCuenta);
-        if (Cuenta != null) {
-            Cuenta.setActiva(false);
+        Cuenta cuenta = bancoDB.getCuentas().get(numCuenta);
+        if (cuenta != null) {
+            cuenta.setActiva(false);
         } else {
             System.out.println("La Cuenta no existe.");
         }
