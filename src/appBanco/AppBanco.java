@@ -116,12 +116,16 @@ public class AppBanco {
 						System.out.println("Titular: " + cuenta.getTitular());
 						System.out.println("Saldo: $" + cuenta.getSaldo());
 					} else {
-						System.out.println("\nEl cuenta no existe.");
+						System.out.println("\nLa Cuenta no existe.");
 					}
 					break;
 				case 3:
 					break;
 				case 4:
+					System.out.print("Número de cuenta: ");
+					numCuenta = entrada.nextInt();
+					gestor = new GestionCuenta(bancoDB);
+					gestor.borrarCuenta(numCuenta);
 					break;
 				case 5:
 					break;
