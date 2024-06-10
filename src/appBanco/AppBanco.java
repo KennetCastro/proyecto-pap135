@@ -2,6 +2,7 @@ package appBanco;
 
 import java.util.Scanner;
 
+import modelos.Cuenta;
 import servicios.BancoDB;
 import servicios.GestionCuenta;
 
@@ -84,16 +85,21 @@ public class AppBanco {
 			System.out.println("4. Eliminar cuenta");
 			System.out.println("5. Volver al menú principal");
 			opcion = getOpcion(entrada);
+			GestionCuenta gestor;
+			int numCuenta;
+			String nombre;
+			Double saldo;
+			Cuenta cuenta;
 			switch (opcion) {
 				case 1:
-					System.out.print("Numero de cuenta: ");
-					int numCuenta = entrada.nextInt();
-					GestionCuenta gestor = new GestionCuenta(bancoDB);
+					System.out.print("Número de cuenta: ");
+					numCuenta = entrada.nextInt();
+					gestor = new GestionCuenta(bancoDB);
 					if (gestor.buscarCuenta(numCuenta) == null) {
 						System.out.print("Nombre del titular: ");
-						String nombre = entrada.next();
+						nombre = entrada.next();
 						System.out.print("Saldo inicial: ");
-						Double saldo = entrada.nextDouble();
+						saldo = entrada.nextDouble();
 						entrada.nextLine();
 						gestor.crearCuenta(numCuenta, nombre, saldo, true);
 					} else {
@@ -101,6 +107,17 @@ public class AppBanco {
 					}
 					break;
 				case 2:
+					System.out.print("Número de cuenta: ");
+					numCuenta = entrada.nextInt();
+					gestor = new GestionCuenta(bancoDB);
+					cuenta = gestor.buscarCuenta(numCuenta);
+					if (cuenta != null) {
+						System.out.println("\nNúmero de cuenta: " + cuenta.getNumCuenta());
+						System.out.println("Titular: " + cuenta.getTitular());
+						System.out.println("Saldo: $" + cuenta.getSaldo());
+					} else {
+						System.out.println("\nEl cuenta no existe.");
+					}
 					break;
 				case 3:
 					break;
