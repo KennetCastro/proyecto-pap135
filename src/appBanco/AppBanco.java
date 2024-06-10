@@ -3,9 +3,10 @@ package appBanco;
 import java.util.Scanner;
 
 import servicios.BancoDB;
+import servicios.GestionCuenta;
 
 public class AppBanco {
-	private BancoDB bancoDB = new BancoDB();
+	private static BancoDB bancoDB = new BancoDB();
 	
 	public static void main(String[] args) {
 		Scanner entrada = new Scanner(System.in);
@@ -85,6 +86,19 @@ public class AppBanco {
 			opcion = getOpcion(entrada);
 			switch (opcion) {
 				case 1:
+					System.out.print("Numero de cuenta: ");
+					int numCuenta = entrada.nextInt();
+					GestionCuenta gestor = new GestionCuenta(bancoDB);
+					if (gestor.buscarCuenta(numCuenta) == null) {
+						System.out.print("Nombre del titular: ");
+						String nombre = entrada.next();
+						System.out.print("Saldo inicial: ");
+						Double saldo = entrada.nextDouble();
+						entrada.nextLine();
+						gestor.crearCuenta(numCuenta, nombre, saldo, true);
+					} else {
+						System.out.println("\nEl númmero de cuenta ya existe.");
+					}
 					break;
 				case 2:
 					break;
