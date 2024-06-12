@@ -85,7 +85,8 @@ public class AppBanco {
 			System.out.println("4. Eliminar cuenta");
 			System.out.println("5. Volver al menú principal");
 			opcion = getOpcion(entrada);
-			GestionCuenta gestor;
+			
+			GestionCuenta gestor = new GestionCuenta(bancoDB);
 			int numCuenta;
 			String nombre;
 			Double saldo;
@@ -94,7 +95,6 @@ public class AppBanco {
 				case 1:
 					System.out.print("Número de cuenta: ");
 					numCuenta = entrada.nextInt();
-					gestor = new GestionCuenta(bancoDB);
 					if (gestor.buscarCuenta(numCuenta) == null) {
 						System.out.print("Nombre del titular: ");
 						nombre = entrada.next();
@@ -109,7 +109,6 @@ public class AppBanco {
 				case 2:
 					System.out.print("Número de cuenta: ");
 					numCuenta = entrada.nextInt();
-					gestor = new GestionCuenta(bancoDB);
 					cuenta = gestor.buscarCuenta(numCuenta);
 					if (cuenta != null) {
 						System.out.println("\nNúmero de cuenta: " + cuenta.getNumCuenta());
@@ -127,13 +126,11 @@ public class AppBanco {
 					nombre = entrada.next();
 					System.out.print("¿Desea bloquear la cuenta? (true/false): ");
 					Boolean bloquear = entrada.nextBoolean();
-					gestor = new GestionCuenta(bancoDB);
 					gestor.modificarCuenta(numCuenta, nombre, !bloquear);
 					break;
 				case 4:
 					System.out.print("Número de cuenta: ");
 					numCuenta = entrada.nextInt();
-					gestor = new GestionCuenta(bancoDB);
 					gestor.borrarCuenta(numCuenta);
 					break;
 				case 5:
