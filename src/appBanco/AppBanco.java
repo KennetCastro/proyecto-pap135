@@ -2,10 +2,12 @@ package appBanco;
 
 import java.util.Scanner;
 
+import modelos.Cuenta;
 import servicios.BancoDB;
+import servicios.GestionCuenta;
 
 public class AppBanco {
-	private BancoDB bancoDB = new BancoDB();
+	private static BancoDB bancoDB = new BancoDB();
 	
 	public static void main(String[] args) {
 		Scanner entrada = new Scanner(System.in);
@@ -83,14 +85,53 @@ public class AppBanco {
 			System.out.println("4. Eliminar cuenta");
 			System.out.println("5. Volver al menú principal");
 			opcion = getOpcion(entrada);
+			
+			GestionCuenta gestor = new GestionCuenta(bancoDB);
+			int numCuenta;
+			String nombre;
+			Double saldo;
+			Cuenta cuenta;
 			switch (opcion) {
 				case 1:
+					System.out.print("Número de cuenta: ");
+					numCuenta = entrada.nextInt();
+					if (gestor.buscarCuenta(numCuenta) == null) {
+						System.out.print("Nombre del titular: ");
+						nombre = entrada.next();
+						System.out.print("Saldo inicial: ");
+						saldo = entrada.nextDouble();
+						entrada.nextLine();
+						gestor.crearCuenta(numCuenta, nombre, saldo, true);
+					} else {
+						System.out.println("\nEl númmero de cuenta ya existe.");
+					}
 					break;
 				case 2:
+					System.out.print("Número de cuenta: ");
+					numCuenta = entrada.nextInt();
+					cuenta = gestor.buscarCuenta(numCuenta);
+					if (cuenta != null) {
+						System.out.println("\nNúmero de cuenta: " + cuenta.getNumCuenta());
+						System.out.println("Titular: " + cuenta.getTitular());
+						System.out.println("Saldo: $" + cuenta.getSaldo());
+						System.out.println("Estado: " + (cuenta.isActiva() ? "Activa":"Bloqueada"));
+					} else {
+						System.out.println("\nLa Cuenta no existe.");
+					}
 					break;
 				case 3:
+					System.out.print("Número de cuenta: ");
+					numCuenta = entrada.nextInt();
+					System.out.print("Nombre del titular: ");
+					nombre = entrada.next();
+					System.out.print("¿Desea bloquear la cuenta? (true/false): ");
+					Boolean bloquear = entrada.nextBoolean();
+					gestor.modificarCuenta(numCuenta, nombre, !bloquear);
 					break;
 				case 4:
+					System.out.print("Número de cuenta: ");
+					numCuenta = entrada.nextInt();
+					gestor.borrarCuenta(numCuenta);
 					break;
 				case 5:
 					break;
