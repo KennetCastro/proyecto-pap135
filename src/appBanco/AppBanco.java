@@ -2,6 +2,7 @@ package appBanco;
 
 import java.util.Scanner;
 
+import modelos.Cliente;
 import modelos.Cuenta;
 import servicios.BancoDB;
 import servicios.GestionCuenta;
@@ -63,6 +64,7 @@ public class AppBanco {
 			GestorCliente gestor = new GestorCliente(bancoDB);
 			int id;
 			String nombre;
+			Cliente cliente;
 			switch (opcion) {
 				case 1:
 					System.out.print("Nombre: ");
@@ -72,6 +74,15 @@ public class AppBanco {
 					gestor.crearCliente(nombre, id);
 					break;
 				case 2:
+					System.out.print("Número de identificación: ");
+					id = entrada.nextInt();
+					cliente = gestor.buscarCliente(id);
+					if (cliente != null) {
+						System.out.println("Nombre: " + cliente.getNombre());
+						System.out.println("Número de identificación: " + cliente.getId());						
+					} else {						
+						System.out.println("\nEl Cliente no existe.");						
+					}
 					break;
 				case 3:
 					break;
