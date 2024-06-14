@@ -1,6 +1,7 @@
 package servicios;
 
 import modelos.Cliente;
+import modelos.Cuenta;
 
 public class GestorCliente {
     private BancoDB bancoDB;
@@ -9,10 +10,13 @@ public class GestorCliente {
         this.bancoDB = bancoDB;
     }
 
-    public Cliente crearCliente(String nombre, int id) {
-        Cliente cliente = new Cliente(nombre, id);
-        bancoDB.agregarCliente(cliente);
-        return cliente;
+    public void crearCliente(String nombre, int id) {
+        if (!bancoDB.getClientes().containsKey(id)) {
+            Cliente nuevoCliente = new Cliente(nombre, id);
+            bancoDB.getClientes().put(id, nuevoCliente);
+        } else {
+            System.out.println("El número de Cliente ya existe.");
+        }
     }
 
     public Cliente buscarCliente(int id) {
