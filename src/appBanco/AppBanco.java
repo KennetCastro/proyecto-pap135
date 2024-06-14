@@ -7,6 +7,9 @@ import modelos.Cuenta;
 import servicios.BancoDB;
 import servicios.GestionCuenta;
 import servicios.GestorCliente;
+import servicios.GestorDeTransacciones;
+
+
 
 public class AppBanco {
 	private static BancoDB bancoDB = new BancoDB();
@@ -179,12 +182,62 @@ public class AppBanco {
 			System.out.println("3. Transferir");
 			System.out.println("4. Volver al menú principal");
 			opcion = getOpcion(entrada);
+			
+			GestorDeTransacciones gestorTransacciones;
+			GestionCuenta gestorCuenta;
+			int numCuenta;
+			double monto;
+			Cuenta cuenta;
 			switch (opcion) {
 				case 1:
+					gestorCuenta = new GestionCuenta(bancoDB);
+					gestorTransacciones = new GestorDeTransacciones(bancoDB);
+					System.out.print("Número de cuenta: ");
+					numCuenta = entrada.nextInt();
+					cuenta = gestorCuenta.buscarCuenta(numCuenta);
+					if (cuenta == null) {
+						System.out.print("\nLa Cuenta no existe.");
+						break;
+					}
+					System.out.print("Monto a depositar: ");
+					monto = entrada.nextDouble();
+					gestorTransacciones.registrarDeposito(cuenta, monto);
 					break;
 				case 2:
+					gestorCuenta = new GestionCuenta(bancoDB);
+					gestorTransacciones = new GestorDeTransacciones(bancoDB);
+					System.out.print("Número de cuenta: ");
+					numCuenta = entrada.nextInt();
+					cuenta = gestorCuenta.buscarCuenta(numCuenta);
+					if (cuenta == null) {
+						System.out.print("\nLa Cuenta no existe.");
+						break;
+					}
+					System.out.print("Monto a depositar: ");
+					monto = entrada.nextDouble();
+					gestorTransacciones.registrarRetiro(cuenta, monto);
 					break;
 				case 3:
+					gestorCuenta = new GestionCuenta(bancoDB);
+					gestorTransacciones = new GestorDeTransacciones(bancoDB);
+					System.out.print("Número de cuenta de origen: ");
+					numCuenta = entrada.nextInt();
+					cuenta = gestorCuenta.buscarCuenta(numCuenta);
+					if (cuenta == null) {
+						System.out.print("\nLa Cuenta no existe.");
+						break;
+					}
+					
+					System.out.print("Número de cuenta de destino: ");
+					int numCuenta2 = entrada.nextInt();
+					Cuenta cuenta2 = gestorCuenta.buscarCuenta(numCuenta2);
+					if (cuenta2 == null) {
+						System.out.print("\nLa Cuenta no existe.");
+						break;
+					}
+					System.out.print("Monto a depositar: ");
+					monto = entrada.nextDouble();
+					gestorTransacciones.registrarTransferencia(cuenta, cuenta2, monto);;
 					break;
 				case 4:
 					break;
