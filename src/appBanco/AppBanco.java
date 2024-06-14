@@ -85,6 +85,11 @@ public class AppBanco {
 					}
 					break;
 				case 3:
+					System.out.print("Número de identificación: ");
+					id = entrada.nextInt();
+					System.out.print("Nombre: ");
+					nombre = entrada.next();
+					gestor.modificarCliente(id, nombre);
 					break;
 				case 4:
 					break;
