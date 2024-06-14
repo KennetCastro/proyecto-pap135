@@ -3,10 +3,10 @@ import java.util.ArrayList;
 
 public class Cliente {
     private String nombre;
-    private String id;
-    private ArrayList<CuentaBancaria> cuentas;
+    private int id;
+    private ArrayList<Cuenta> cuentas;
 
-    public Cliente(String nombre, String id) {
+    public Cliente(String nombre, int id) {
         this.nombre = nombre;
         this.id = id;
         this.cuentas = new ArrayList<>();
@@ -24,19 +24,19 @@ public class Cliente {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public ArrayList<CuentaBancaria> getCuentas() {
+    public ArrayList<Cuenta> getCuentas() {
         return cuentas;
     }
 
-    public void agregarCuenta(CuentaBancaria cuenta) {
+    public void agregarCuenta(Cuenta cuenta) {
         cuentas.add(cuenta);
     }
 
-    public Double consultarSaldo(CuentaBancaria cuenta) {
+    public Double consultarSaldo(Cuenta cuenta) {
         if (cuentas.contains(cuenta)) {
             return cuenta.getSaldo();
         } else {

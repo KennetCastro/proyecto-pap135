@@ -1,4 +1,7 @@
 package servicios;
+
+import modelos.Cliente;
+
 public class GestorCliente {
     private BancoDB bancoDB;
 
@@ -6,13 +9,13 @@ public class GestorCliente {
         this.bancoDB = bancoDB;
     }
 
-    public Cliente crearCliente(String nombre, String id) {
+    public Cliente crearCliente(String nombre, int id) {
         Cliente cliente = new Cliente(nombre, id);
         bancoDB.agregarCliente(cliente);
         return cliente;
     }
 
-    public Cliente buscarCliente(String id) {
+    public Cliente buscarCliente(int id) {
         return bancoDB.buscarCliente(id);
     }
 
@@ -21,7 +24,7 @@ public class GestorCliente {
         bancoDB.modificarCliente(cliente);
     }
 
-    public void borrarCliente(String id) {
+    public void borrarCliente(int id) {
         bancoDB.eliminarCliente(id);
     }
 }
