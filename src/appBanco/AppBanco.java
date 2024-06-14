@@ -5,6 +5,7 @@ import java.util.Scanner;
 import modelos.Cuenta;
 import servicios.BancoDB;
 import servicios.GestionCuenta;
+import servicios.GestorCliente;
 
 public class AppBanco {
 	private static BancoDB bancoDB = new BancoDB();
@@ -58,8 +59,17 @@ public class AppBanco {
 			System.out.println("4. Eliminar cliente");
 			System.out.println("5. Volver al menú principal");
 			opcion = getOpcion(entrada);
+			
+			GestorCliente gestor = new GestorCliente(bancoDB);
+			int id;
+			String nombre;
 			switch (opcion) {
 				case 1:
+					System.out.print("Nombre: ");
+					nombre = entrada.next();
+					System.out.print("Número de identificación: ");
+					id = entrada.nextInt();
+					gestor.crearCliente(nombre, id);
 					break;
 				case 2:
 					break;
@@ -103,7 +113,7 @@ public class AppBanco {
 						entrada.nextLine();
 						gestor.crearCuenta(numCuenta, nombre, saldo, true);
 					} else {
-						System.out.println("\nEl númmero de cuenta ya existe.");
+						System.out.println("\nEl número de cuenta ya existe.");
 					}
 					break;
 				case 2:
