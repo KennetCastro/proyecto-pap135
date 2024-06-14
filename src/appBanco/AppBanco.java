@@ -119,21 +119,31 @@ public class AppBanco {
 			opcion = getOpcion(entrada);
 			
 			GestionCuenta gestor = new GestionCuenta(bancoDB);
+			GestorCliente gestorCliente = new GestorCliente(bancoDB);
 			int numCuenta;
 			String nombre;
 			Double saldo;
 			Cuenta cuenta;
+			Cliente cliente;
+			int titularID;
 			switch (opcion) {
 				case 1:
 					System.out.print("Número de cuenta: ");
 					numCuenta = entrada.nextInt();
 					if (gestor.buscarCuenta(numCuenta) == null) {
-						System.out.print("Nombre del titular: ");
-						nombre = entrada.next();
+						System.out.print("Número de identificación del titular: ");
+						titularID = entrada.nextInt();
+						cliente = gestorCliente.buscarCliente(titularID);
+						if (cliente == null) {
+							System.out.print("\nEl Cliente no existe. ");
+							break;
+						}
+						nombre = cliente.getNombre();
 						System.out.print("Saldo inicial: ");
 						saldo = entrada.nextDouble();
 						entrada.nextLine();
-						gestor.crearCuenta(numCuenta, nombre, saldo, true);
+						gestor.crearCuenta(numCuenta, nombre, titularID, saldo, true);
+						cliente.agregarCuenta(gestor.buscarCuenta(numCuenta));
 					} else {
 						System.out.println("\nEl número de cuenta ya existe.");
 					}
@@ -154,11 +164,17 @@ public class AppBanco {
 				case 3:
 					System.out.print("Número de cuenta: ");
 					numCuenta = entrada.nextInt();
-					System.out.print("Nombre del titular: ");
-					nombre = entrada.next();
+					System.out.print("Número de identificación del titular: ");
+					titularID = entrada.nextInt();
+					cliente = gestorCliente.buscarCliente(titularID);
+					if (cliente == null) {
+						System.out.print("\nEl Cliente no existe. ");
+						break;
+					}
+					nombre = cliente.getNombre();
 					System.out.print("¿Desea bloquear la cuenta? (true/false): ");
 					Boolean bloquear = entrada.nextBoolean();
-					gestor.modificarCuenta(numCuenta, nombre, !bloquear);
+					gestor.modificarCuenta(numCuenta, nombre, titularID, !bloquear);
 					break;
 				case 4:
 					System.out.print("Número de cuenta: ");

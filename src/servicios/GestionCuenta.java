@@ -12,9 +12,9 @@ public class GestionCuenta {
     }
 
     // Crear una nueva Cuenta
-    public void crearCuenta(int numCuenta, String titular, double saldo, boolean activa) {
+    public void crearCuenta(int numCuenta, String titular, int titularID, double saldo, boolean activa) {
         if (!bancoDB.getCuentas().containsKey(numCuenta)) {
-            Cuenta nuevaCuenta = new Cuenta(numCuenta, titular, saldo, activa);
+            Cuenta nuevaCuenta = new Cuenta(numCuenta, titular, titularID, saldo, activa);
             bancoDB.getCuentas().put(numCuenta, nuevaCuenta);
         } else {
             System.out.println("El número de Cuenta ya existe.");
@@ -27,11 +27,12 @@ public class GestionCuenta {
     }
 
     // Modificar una Cuenta existente
-    public void modificarCuenta(int numCuenta, String nuevoTitular, boolean nuevaActiva) {
+    public void modificarCuenta(int numCuenta, String nuevoTitular, int nuevoTitularID, boolean nuevaActiva) {
         Cuenta cuenta = bancoDB.getCuentas().get(numCuenta);
         if (cuenta != null) {
             cuenta.setTitular(nuevoTitular);
             cuenta.setActiva(nuevaActiva);
+            cuenta.setTitularID(nuevoTitularID);
         } else {
             System.out.println("La Cuenta no existe.");
         }
