@@ -1,6 +1,7 @@
 package servicios;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import modelos.Cuenta;
@@ -16,8 +17,13 @@ public class GestorDeTransacciones {
     public void registrarDeposito(Cuenta cuenta, double monto) {
         cuenta.depositar(monto);
         List<Transaccion> historial = bancoDB.getTransacciones().get(cuenta.getNumCuenta());
+        if (historial == null) {
+        	historial = new ArrayList<Transaccion>();
+        	bancoDB.getTransacciones().put(cuenta.getNumCuenta(), historial);
+        }
         historial.add(new Transaccion(monto, null, cuenta, LocalDateTime.now()));
-        System.out.println("Depósito registrado: " + monto + " a la cuenta " + cuenta.getNumCuenta());
+        System.out.println("Depósito registrado: $" + monto + " a la cuenta " + cuenta.getNumCuenta());
+        System.out.println("Nuevo saldo: $" + cuenta.getSaldo());
     }
 
     public void registrarRetiro(Cuenta cuenta, double monto) {
