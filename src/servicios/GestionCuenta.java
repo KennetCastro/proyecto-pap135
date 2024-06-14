@@ -1,6 +1,7 @@
 package servicios;
 
 
+import modelos.Cliente;
 import modelos.Cuenta;
 
 
@@ -41,6 +42,13 @@ public class GestionCuenta {
     // Borrar una Cuenta existente
     public void borrarCuenta(int numCuenta) {
         if (bancoDB.getCuentas().containsKey(numCuenta)) {
+        	Cuenta cuenta = bancoDB.getCuentas().get(numCuenta);
+        	if (cuenta.getSaldo() != 0) {
+        		System.out.println("\nLa Cuenta aun tiene fondos.");
+        		return;
+        	}
+        	Cliente cliente = bancoDB.getClientes().get(cuenta.getTitularID());
+        	cliente.getCuentas().remove(cuenta);
             bancoDB.getCuentas().remove(numCuenta);
         } else {
             System.out.println("La Cuenta no existe.");
