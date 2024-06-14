@@ -2,10 +2,10 @@ package modelos;
 
 public class Transaccion {
     private double monto;
-    private CuentaBancaria cuentaOrigen;
-    private CuentaBancaria cuentaDestino;
+    private Cuenta cuentaOrigen;
+    private Cuenta cuentaDestino;
 
-    public Transaccion(double monto, CuentaBancaria cuentaOrigen, CuentaBancaria cuentaDestino) {
+    public Transaccion(double monto, Cuenta cuentaOrigen, Cuenta cuentaDestino) {
         this.monto = monto;
         this.cuentaOrigen = cuentaOrigen;
         this.cuentaDestino = cuentaDestino;
@@ -15,11 +15,11 @@ public class Transaccion {
         return monto;
     }
 
-    public CuentaBancaria getCuentaOrigen() {
+    public Cuenta getCuentaOrigen() {
         return cuentaOrigen;
     }
 
-    public CuentaBancaria getCuentaDestino() {
+    public Cuenta getCuentaDestino() {
         return cuentaDestino;
     }
 }
