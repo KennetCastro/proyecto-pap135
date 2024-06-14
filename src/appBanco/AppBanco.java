@@ -1,5 +1,6 @@
 package appBanco;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import modelos.Cliente;
@@ -74,15 +75,26 @@ public class AppBanco {
 					nombre = entrada.next();
 					System.out.print("Número de identificación: ");
 					id = entrada.nextInt();
-					gestor.crearCliente(nombre, id);
+					System.out.print("Número de cuenta: ");
+					int numCuenta = entrada.nextInt();
+					GestionCuenta gestorCuenta = new GestionCuenta(bancoDB);
+					if (gestorCuenta.buscarCuenta(numCuenta) == null) {
+						gestor.crearCliente(nombre, id);
+						System.out.print("Saldo inicial: ");
+						double saldo = entrada.nextDouble();
+						gestorCuenta.crearCuenta(numCuenta, nombre, id, saldo, true);
+						cliente = gestor.buscarCliente(id);
+						cliente.agregarCuenta(gestorCuenta.buscarCuenta(numCuenta));
+					}
 					break;
 				case 2:
 					System.out.print("Número de identificación: ");
 					id = entrada.nextInt();
 					cliente = gestor.buscarCliente(id);
 					if (cliente != null) {
-						System.out.println("Nombre: " + cliente.getNombre());
-						System.out.println("Número de identificación: " + cliente.getId());						
+						System.out.println("\tNombre: " + cliente.getNombre());
+						System.out.println("\tNúmero de identificación: " + cliente.getId());						
+						System.out.println("\tCuentas: " + cliente.getCuentas().size());						
 					} else {						
 						System.out.println("\nEl Cliente no existe.");						
 					}
@@ -97,7 +109,17 @@ public class AppBanco {
 				case 4:
 					System.out.print("Número de identificación: ");
 					id = entrada.nextInt();
-					gestor.borrarCliente(id);
+					cliente = gestor.buscarCliente(id);
+					gestorCuenta = new GestionCuenta(bancoDB);
+					ArrayList<Cuenta> cuentas = (ArrayList<Cuenta>) cliente.getCuentas().clone();
+					for (Cuenta cuenta : cuentas) {
+						gestorCuenta.borrarCuenta(cuenta.getNumCuenta());
+					}
+					if (cliente.getCuentas().size() == 0) {						
+						gestor.borrarCliente(id);
+					} else {
+						System.out.println("Se eliminaro solo las cuentas vacias.");						
+					}
 					break;
 				case 5:
 					break;
@@ -119,21 +141,31 @@ public class AppBanco {
 			opcion = getOpcion(entrada);
 			
 			GestionCuenta gestor = new GestionCuenta(bancoDB);
+			GestorCliente gestorCliente = new GestorCliente(bancoDB);
 			int numCuenta;
 			String nombre;
 			Double saldo;
 			Cuenta cuenta;
+			Cliente cliente;
+			int titularID;
 			switch (opcion) {
 				case 1:
 					System.out.print("Número de cuenta: ");
 					numCuenta = entrada.nextInt();
 					if (gestor.buscarCuenta(numCuenta) == null) {
-						System.out.print("Nombre del titular: ");
-						nombre = entrada.next();
+						System.out.print("Número de identificación del titular: ");
+						titularID = entrada.nextInt();
+						cliente = gestorCliente.buscarCliente(titularID);
+						if (cliente == null) {
+							System.out.print("\nEl Cliente no existe. ");
+							break;
+						}
+						nombre = cliente.getNombre();
 						System.out.print("Saldo inicial: ");
 						saldo = entrada.nextDouble();
 						entrada.nextLine();
-						gestor.crearCuenta(numCuenta, nombre, saldo, true);
+						gestor.crearCuenta(numCuenta, nombre, titularID, saldo, true);
+						cliente.agregarCuenta(gestor.buscarCuenta(numCuenta));
 					} else {
 						System.out.println("\nEl número de cuenta ya existe.");
 					}
@@ -143,10 +175,10 @@ public class AppBanco {
 					numCuenta = entrada.nextInt();
 					cuenta = gestor.buscarCuenta(numCuenta);
 					if (cuenta != null) {
-						System.out.println("\nNúmero de cuenta: " + cuenta.getNumCuenta());
-						System.out.println("Titular: " + cuenta.getTitular());
-						System.out.println("Saldo: $" + cuenta.getSaldo());
-						System.out.println("Estado: " + (cuenta.isActiva() ? "Activa":"Bloqueada"));
+						System.out.println("\tNúmero de cuenta: " + cuenta.getNumCuenta());
+						System.out.println("\tTitular: " + cuenta.getTitular());
+						System.out.println("\tSaldo: $" + cuenta.getSaldo());
+						System.out.println("\tEstado: " + (cuenta.isActiva() ? "Activa":"Bloqueada"));
 					} else {
 						System.out.println("\nLa Cuenta no existe.");
 					}
@@ -154,11 +186,17 @@ public class AppBanco {
 				case 3:
 					System.out.print("Número de cuenta: ");
 					numCuenta = entrada.nextInt();
-					System.out.print("Nombre del titular: ");
-					nombre = entrada.next();
+					System.out.print("Número de identificación del titular: ");
+					titularID = entrada.nextInt();
+					cliente = gestorCliente.buscarCliente(titularID);
+					if (cliente == null) {
+						System.out.print("\nEl Cliente no existe. ");
+						break;
+					}
+					nombre = cliente.getNombre();
 					System.out.print("¿Desea bloquear la cuenta? (true/false): ");
 					Boolean bloquear = entrada.nextBoolean();
-					gestor.modificarCuenta(numCuenta, nombre, !bloquear);
+					gestor.modificarCuenta(numCuenta, nombre, titularID, !bloquear);
 					break;
 				case 4:
 					System.out.print("Número de cuenta: ");
@@ -213,7 +251,7 @@ public class AppBanco {
 						System.out.print("\nLa Cuenta no existe.");
 						break;
 					}
-					System.out.print("Monto a depositar: ");
+					System.out.print("Monto a retirar: ");
 					monto = entrada.nextDouble();
 					gestorTransacciones.registrarRetiro(cuenta, monto);
 					break;
@@ -235,7 +273,7 @@ public class AppBanco {
 						System.out.print("\nLa Cuenta no existe.");
 						break;
 					}
-					System.out.print("Monto a depositar: ");
+					System.out.print("Monto a transferir: ");
 					monto = entrada.nextDouble();
 					gestorTransacciones.registrarTransferencia(cuenta, cuenta2, monto);;
 					break;
@@ -255,10 +293,25 @@ public class AppBanco {
 			System.out.println("2. Ver transacciones de cuenta");
 			System.out.println("3. Volver al menú principal");
 			opcion = getOpcion(entrada);
+			
+			int clienteID;
+			int cuentaID;
+			GestorCliente gestorCliente = new GestorCliente(bancoDB);
+			GestorDeTransacciones gestorTransacciones = new GestorDeTransacciones(bancoDB);
 			switch (opcion) {
 				case 1:
+					System.out.print("Número de identificación: ");
+					clienteID = entrada.nextInt();
+					Cliente cliente = gestorCliente.buscarCliente(clienteID);
+					for (Cuenta cuenta : cliente.getCuentas()) {
+						System.out.println("Cuenta: " + cuenta.getNumCuenta());
+						gestorTransacciones.mostrarHistorial(cuenta.getNumCuenta());
+					}
 					break;
 				case 2:
+					System.out.print("Número de cuenta: ");
+					cuentaID = entrada.nextInt();
+					gestorTransacciones.mostrarHistorial(cuentaID);
 					break;
 				case 3:
 					break;

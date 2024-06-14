@@ -3,13 +3,15 @@ package modelos;
 public class Cuenta {
     private int numCuenta;
     private String titular;
+    private int titularID;
     private double saldo;
     private boolean activa;
 
     // Constructor
-    public Cuenta(int numCuenta, String titular, double saldo, boolean activa) {
+    public Cuenta(int numCuenta, String titular, int titularID, double saldo, boolean activa) {
         this.numCuenta = numCuenta;
         this.titular = titular;
+        this.setTitularID(titularID);
         this.saldo = saldo;
         this.activa = activa;
     }
@@ -37,6 +39,14 @@ public class Cuenta {
 
     public void setSaldo(double saldo) {
         this.saldo = saldo;
+    }
+
+    public int getTitularID() {
+    	return titularID;
+    }
+    
+    public void setTitularID(int titularID) {
+    	this.titularID = titularID;
     }
 
     public boolean isActiva() {
@@ -80,5 +90,6 @@ public class Cuenta {
             System.out.println("La cuenta está inactiva.");
         }
     }
+
 }
 
