@@ -91,8 +91,9 @@ public class AppBanco {
 					id = entrada.nextInt();
 					cliente = gestor.buscarCliente(id);
 					if (cliente != null) {
-						System.out.println("Nombre: " + cliente.getNombre());
-						System.out.println("Número de identificación: " + cliente.getId());						
+						System.out.println("\tNombre: " + cliente.getNombre());
+						System.out.println("\tNúmero de identificación: " + cliente.getId());						
+						System.out.println("\tCuentas: " + cliente.getCuentas().size());						
 					} else {						
 						System.out.println("\nEl Cliente no existe.");						
 					}
@@ -163,10 +164,10 @@ public class AppBanco {
 					numCuenta = entrada.nextInt();
 					cuenta = gestor.buscarCuenta(numCuenta);
 					if (cuenta != null) {
-						System.out.println("\nNúmero de cuenta: " + cuenta.getNumCuenta());
-						System.out.println("Titular: " + cuenta.getTitular());
-						System.out.println("Saldo: $" + cuenta.getSaldo());
-						System.out.println("Estado: " + (cuenta.isActiva() ? "Activa":"Bloqueada"));
+						System.out.println("\tNúmero de cuenta: " + cuenta.getNumCuenta());
+						System.out.println("\tTitular: " + cuenta.getTitular());
+						System.out.println("\tSaldo: $" + cuenta.getSaldo());
+						System.out.println("\tEstado: " + (cuenta.isActiva() ? "Activa":"Bloqueada"));
 					} else {
 						System.out.println("\nLa Cuenta no existe.");
 					}
