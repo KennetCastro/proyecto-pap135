@@ -92,6 +92,9 @@ public class AppBanco {
 					gestor.modificarCliente(id, nombre);
 					break;
 				case 4:
+					System.out.print("Número de identificación: ");
+					id = entrada.nextInt();
+					gestor.borrarCliente(id);
 					break;
 				case 5:
 					break;
