@@ -35,6 +35,10 @@ public class GestorDeTransacciones {
     }
 
     public void registrarTransferencia(Cuenta cuentaOrigen, Cuenta cuentaDestino, double monto) {
+    	if (cuentaOrigen.getSaldo() < monto) {
+    		System.out.println("\nSaldo insuficiente: $" + cuentaOrigen.getSaldo());
+        	return;
+    	}
         cuentaOrigen.transferir(cuentaDestino, monto);
         List<Transaccion> historialOrigen = bancoDB.getTransacciones().get(cuentaOrigen.getNumCuenta());
         LocalDateTime fecha = LocalDateTime.now();
