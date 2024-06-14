@@ -74,7 +74,17 @@ public class AppBanco {
 					nombre = entrada.next();
 					System.out.print("Número de identificación: ");
 					id = entrada.nextInt();
-					gestor.crearCliente(nombre, id);
+					System.out.print("Número de cuenta: ");
+					int numCuenta = entrada.nextInt();
+					GestionCuenta gestorCuenta = new GestionCuenta(bancoDB);
+					if (gestorCuenta.buscarCuenta(numCuenta) == null) {
+						gestor.crearCliente(nombre, id);
+						System.out.print("Saldo inicial: ");
+						double saldo = entrada.nextDouble();
+						gestorCuenta.crearCuenta(numCuenta, nombre, id, saldo, true);
+						cliente = gestor.buscarCliente(id);
+						cliente.agregarCuenta(gestorCuenta.buscarCuenta(numCuenta));
+					}
 					break;
 				case 2:
 					System.out.print("Número de identificación: ");
