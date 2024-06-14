@@ -184,9 +184,29 @@ public class AppBanco {
 					}
 					System.out.print("Monto a depositar: ");
 					monto = entrada.nextDouble();
-					gestorTransacciones.registrarRetiro(cuenta, monto);;
+					gestorTransacciones.registrarRetiro(cuenta, monto);
 					break;
 				case 3:
+					gestorCuenta = new GestionCuenta(bancoDB);
+					gestorTransacciones = new GestorDeTransacciones(bancoDB);
+					System.out.print("Número de cuenta de origen: ");
+					numCuenta = entrada.nextInt();
+					cuenta = gestorCuenta.buscarCuenta(numCuenta);
+					if (cuenta == null) {
+						System.out.print("\nLa Cuenta no existe.");
+						break;
+					}
+					
+					System.out.print("Número de cuenta de destino: ");
+					int numCuenta2 = entrada.nextInt();
+					Cuenta cuenta2 = gestorCuenta.buscarCuenta(numCuenta2);
+					if (cuenta2 == null) {
+						System.out.print("\nLa Cuenta no existe.");
+						break;
+					}
+					System.out.print("Monto a depositar: ");
+					monto = entrada.nextDouble();
+					gestorTransacciones.registrarTransferencia(cuenta, cuenta2, monto);;
 					break;
 				case 4:
 					break;
