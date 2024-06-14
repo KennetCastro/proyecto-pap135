@@ -1,5 +1,6 @@
 package appBanco;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import modelos.Cliente;
@@ -108,7 +109,17 @@ public class AppBanco {
 				case 4:
 					System.out.print("Número de identificación: ");
 					id = entrada.nextInt();
-					gestor.borrarCliente(id);
+					cliente = gestor.buscarCliente(id);
+					gestorCuenta = new GestionCuenta(bancoDB);
+					ArrayList<Cuenta> cuentas = (ArrayList<Cuenta>) cliente.getCuentas().clone();
+					for (Cuenta cuenta : cuentas) {
+						gestorCuenta.borrarCuenta(cuenta.getNumCuenta());
+					}
+					if (cliente.getCuentas().size() == 0) {						
+						gestor.borrarCliente(id);
+					} else {
+						System.out.println("Se eliminaro solo las cuentas vacias.");						
+					}
 					break;
 				case 5:
 					break;
