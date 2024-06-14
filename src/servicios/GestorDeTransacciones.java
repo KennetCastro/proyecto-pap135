@@ -1,6 +1,5 @@
 package servicios;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import modelos.Cuenta;
@@ -36,8 +35,10 @@ public class GestorDeTransacciones {
         System.out.println("Transferencia registrada: " + monto + " de la cuenta " + cuentaOrigen.getNumCuenta() + " a la cuenta " + cuentaDestino.getNumCuenta());
     }
 
-    public void mostrarHistorial(Cuenta cuenta) {
-    	List<Transaccion> historial = bancoDB.getTransacciones().get(cuenta.getNumCuenta());
+    public void mostrarHistorial(Integer numCuenta) {
+    	List<Transaccion> historial = bancoDB.getTransacciones().get(numCuenta);
+    	if (historial == null) {return;}
+    	
         for (Transaccion t : historial) {
             if (t.getCuentaOrigen() == null) {
                 System.out.println("Depósito de " + t.getMonto() + " a la cuenta " + t.getCuentaDestino().getNumCuenta());
