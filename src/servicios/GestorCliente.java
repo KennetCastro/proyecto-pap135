@@ -23,9 +23,16 @@ public class GestorCliente {
     	return bancoDB.getClientes().get(id);
     }
 
-    public void modificarCliente(Cliente cliente, String nuevoNombre) {
-        cliente.setNombre(nuevoNombre);
-        bancoDB.modificarCliente(cliente);
+    public void modificarCliente(int id, String nuevoNombre) {
+        Cliente cliente = bancoDB.getClientes().get(id);
+        if (cliente != null) {
+            cliente.setNombre(nuevoNombre);
+            for (Cuenta cuenta : cliente.getCuentas()) {
+            	cuenta.setTitular(nuevoNombre);
+            }
+        } else {
+            System.out.println("El Cliente no existe.");
+        }
     }
 
     public void borrarCliente(int id) {
