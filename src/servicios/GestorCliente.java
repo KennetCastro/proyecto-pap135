@@ -36,6 +36,10 @@ public class GestorCliente {
     }
 
     public void borrarCliente(int id) {
-        bancoDB.eliminarCliente(id);
+        if (bancoDB.getClientes().containsKey(id)) {
+            bancoDB.getClientes().remove(id);
+        } else {
+            System.out.println("El Cliente no existe.");
+        }
     }
 }
