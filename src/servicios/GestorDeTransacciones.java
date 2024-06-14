@@ -28,9 +28,11 @@ public class GestorDeTransacciones {
     }
 
     public void registrarTransferencia(Cuenta cuentaOrigen, Cuenta cuentaDestino, double monto) {
-        cuentaOrigen.transferir(monto, cuentaDestino);
-        List<Transaccion> historial = bancoDB.getTransacciones().get(cuentaOrigen.getNumCuenta());
-        historial.add(new Transaccion(monto, cuentaOrigen, cuentaDestino));
+        cuentaOrigen.transferir(cuentaDestino, monto);
+        List<Transaccion> historialOrigen = bancoDB.getTransacciones().get(cuentaOrigen.getNumCuenta());
+        historialOrigen.add(new Transaccion(monto, cuentaOrigen, cuentaDestino));
+        List<Transaccion> historialDestino = bancoDB.getTransacciones().get(cuentaDestino.getNumCuenta());
+        historialDestino.add(new Transaccion(monto, cuentaOrigen, cuentaDestino));
         System.out.println("Transferencia registrada: " + monto + " de la cuenta " + cuentaOrigen.getNumCuenta() + " a la cuenta " + cuentaDestino.getNumCuenta());
     }
 
