@@ -20,7 +20,7 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
