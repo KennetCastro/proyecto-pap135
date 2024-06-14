@@ -173,6 +173,18 @@ public class AppBanco {
 					gestorTransacciones.registrarDeposito(cuenta, monto);
 					break;
 				case 2:
+					gestorCuenta = new GestionCuenta(bancoDB);
+					gestorTransacciones = new GestorDeTransacciones(bancoDB);
+					System.out.print("Número de cuenta: ");
+					numCuenta = entrada.nextInt();
+					cuenta = gestorCuenta.buscarCuenta(numCuenta);
+					if (cuenta == null) {
+						System.out.print("\nLa Cuenta no existe.");
+						break;
+					}
+					System.out.print("Monto a depositar: ");
+					monto = entrada.nextDouble();
+					gestorTransacciones.registrarRetiro(cuenta, monto);;
 					break;
 				case 3:
 					break;
