@@ -20,7 +20,7 @@ public class GestorCliente {
     }
 
     public Cliente buscarCliente(int id) {
-        return bancoDB.buscarCliente(id);
+    	return bancoDB.getClientes().get(id);
     }
 
     public void modificarCliente(Cliente cliente, String nuevoNombre) {
