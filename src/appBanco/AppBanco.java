@@ -229,7 +229,7 @@ public class AppBanco {
 						System.out.print("\nLa Cuenta no existe.");
 						break;
 					}
-					System.out.print("Monto a depositar: ");
+					System.out.print("Monto a retirar: ");
 					monto = entrada.nextDouble();
 					gestorTransacciones.registrarRetiro(cuenta, monto);
 					break;
@@ -251,7 +251,7 @@ public class AppBanco {
 						System.out.print("\nLa Cuenta no existe.");
 						break;
 					}
-					System.out.print("Monto a depositar: ");
+					System.out.print("Monto a transferir: ");
 					monto = entrada.nextDouble();
 					gestorTransacciones.registrarTransferencia(cuenta, cuenta2, monto);;
 					break;

@@ -1,8 +1,13 @@
 package servicios;
 
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import modelos.Cliente;
 import modelos.Cuenta;
+import modelos.Transaccion;
 
 
 public class GestionCuenta {
@@ -17,6 +22,9 @@ public class GestionCuenta {
         if (!bancoDB.getCuentas().containsKey(numCuenta)) {
             Cuenta nuevaCuenta = new Cuenta(numCuenta, titular, titularID, saldo, activa);
             bancoDB.getCuentas().put(numCuenta, nuevaCuenta);
+            List<Transaccion> historial = new ArrayList<Transaccion>();
+            historial.add(new Transaccion(saldo, null, nuevaCuenta, LocalDateTime.now()));
+        	bancoDB.getTransacciones().put(nuevaCuenta.getNumCuenta(), historial);
         } else {
             System.out.println("El número de Cuenta ya existe.");
         }

@@ -17,10 +17,6 @@ public class GestorDeTransacciones {
     public void registrarDeposito(Cuenta cuenta, double monto) {
         cuenta.depositar(monto);
         List<Transaccion> historial = bancoDB.getTransacciones().get(cuenta.getNumCuenta());
-        if (historial == null) {
-        	historial = new ArrayList<Transaccion>();
-        	bancoDB.getTransacciones().put(cuenta.getNumCuenta(), historial);
-        }
         historial.add(new Transaccion(monto, null, cuenta, LocalDateTime.now()));
         System.out.println("Depósito registrado: $" + monto + " a la cuenta " + cuenta.getNumCuenta());
         System.out.println("Nuevo saldo: $" + cuenta.getSaldo());
@@ -29,8 +25,13 @@ public class GestorDeTransacciones {
     public void registrarRetiro(Cuenta cuenta, double monto) {
         cuenta.retirar(monto);
         List<Transaccion> historial = bancoDB.getTransacciones().get(cuenta.getNumCuenta());
+        if (cuenta.getSaldo() < monto) {        	
+        	System.out.println("\nSaldo insuficiente: $" + cuenta.getSaldo());
+        	return;
+        }
         historial.add(new Transaccion(monto, cuenta, null, LocalDateTime.now()));
         System.out.println("Retiro registrado: " + monto + " de la cuenta " + cuenta.getNumCuenta());
+        System.out.println("Nuevo saldo: $" + cuenta.getSaldo());
     }
 
     public void registrarTransferencia(Cuenta cuentaOrigen, Cuenta cuentaDestino, double monto) {
