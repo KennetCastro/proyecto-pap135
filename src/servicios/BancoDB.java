@@ -21,7 +21,7 @@ public class BancoDB {
 		return clientes;
 	}
 
-	public static HashMap<Integer, List<Transaccion>> getTransacciones() {
+	public HashMap<Integer, List<Transaccion>> getTransacciones() {
 		return transacciones;
 	}
 }
