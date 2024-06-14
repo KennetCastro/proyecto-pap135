@@ -5,6 +5,7 @@ import java.util.Scanner;
 import modelos.Cuenta;
 import servicios.BancoDB;
 import servicios.GestionCuenta;
+import servicios.GestorDeTransacciones;
 
 public class AppBanco {
 	private static BancoDB bancoDB = new BancoDB();
@@ -150,8 +151,26 @@ public class AppBanco {
 			System.out.println("3. Transferir");
 			System.out.println("4. Volver al menú principal");
 			opcion = getOpcion(entrada);
+			
+			GestorDeTransacciones gestorTransacciones;
+			GestionCuenta gestorCuenta;
+			int numCuenta;
+			double monto;
+			Cuenta cuenta;
 			switch (opcion) {
 				case 1:
+					gestorCuenta = new GestionCuenta(bancoDB);
+					gestorTransacciones = new GestorDeTransacciones(bancoDB);
+					System.out.print("Número de cuenta: ");
+					numCuenta = entrada.nextInt();
+					cuenta = gestorCuenta.buscarCuenta(numCuenta);
+					if (cuenta == null) {
+						System.out.print("\nLa Cuenta no existe.");
+						break;
+					}
+					System.out.print("Monto a depositar: ");
+					monto = entrada.nextDouble();
+					gestorTransacciones.registrarDeposito(cuenta, monto);
 					break;
 				case 2:
 					break;
