@@ -26,4 +26,8 @@ public class Transaccion {
     public Cuenta getCuentaDestino() {
         return cuentaDestino;
     }
+
+    public LocalDateTime getFecha() {
+    	return fecha;
+    }
 }
