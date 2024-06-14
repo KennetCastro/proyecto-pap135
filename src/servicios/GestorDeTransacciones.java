@@ -1,6 +1,7 @@
 package servicios;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,20 +42,24 @@ public class GestorDeTransacciones {
         historialOrigen.add(new Transaccion(monto, cuentaOrigen, cuentaDestino, fecha));
         List<Transaccion> historialDestino = bancoDB.getTransacciones().get(cuentaDestino.getNumCuenta());
         historialDestino.add(new Transaccion(monto, cuentaOrigen, cuentaDestino, fecha));
-        System.out.println("Transferencia registrada: " + monto + " de la cuenta " + cuentaOrigen.getNumCuenta() + " a la cuenta " + cuentaDestino.getNumCuenta());
+        System.out.println("Transferencia registrada: $" + monto + " de la cuenta " + cuentaOrigen.getNumCuenta() + " a la cuenta " + cuentaDestino.getNumCuenta());
     }
 
     public void mostrarHistorial(Integer numCuenta) {
     	List<Transaccion> historial = bancoDB.getTransacciones().get(numCuenta);
     	if (historial == null) {return;}
     	
+    	DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/YYYY HH:mm:ss");
         for (Transaccion t : historial) {
             if (t.getCuentaOrigen() == null) {
-                System.out.println("Depósito de " + t.getMonto() + " a la cuenta " + t.getCuentaDestino().getNumCuenta());
+                System.out.println("\tDepósito de $" + t.getMonto() + " el " + t.getFecha().format(formatoFecha));
             } else if (t.getCuentaDestino() == null) {
-                System.out.println("Retiro de " + t.getMonto() + " de la cuenta " + t.getCuentaOrigen().getNumCuenta());
+                System.out.println("\tRetiro de $" + t.getMonto() + " el " + t.getFecha().format(formatoFecha));
             } else {
-                System.out.println("Transferencia de " + t.getMonto() + " de la cuenta " + t.getCuentaOrigen().getNumCuenta() + " a la cuenta " + t.getCuentaDestino().getNumCuenta());
+                System.out.println("\tTransferencia de $" + t.getMonto() 
+                	+ "de la cuenta " + t.getCuentaOrigen().getNumCuenta()
+                	+ " a la cuenta " + t.getCuentaDestino().getNumCuenta() 
+                	+ " el " + t.getFecha().format(formatoFecha));
             }
         }
     }

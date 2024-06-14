@@ -271,10 +271,25 @@ public class AppBanco {
 			System.out.println("2. Ver transacciones de cuenta");
 			System.out.println("3. Volver al menú principal");
 			opcion = getOpcion(entrada);
+			
+			int clienteID;
+			int cuentaID;
+			GestorCliente gestorCliente = new GestorCliente(bancoDB);
+			GestorDeTransacciones gestorTransacciones = new GestorDeTransacciones(bancoDB);
 			switch (opcion) {
 				case 1:
+					System.out.print("Número de identificación: ");
+					clienteID = entrada.nextInt();
+					Cliente cliente = gestorCliente.buscarCliente(clienteID);
+					for (Cuenta cuenta : cliente.getCuentas()) {
+						System.out.println("Cuenta: " + cuenta.getNumCuenta());
+						gestorTransacciones.mostrarHistorial(cuenta.getNumCuenta());
+					}
 					break;
 				case 2:
+					System.out.print("Número de cuenta: ");
+					cuentaID = entrada.nextInt();
+					gestorTransacciones.mostrarHistorial(cuentaID);
 					break;
 				case 3:
 					break;
